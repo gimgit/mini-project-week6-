@@ -1,0 +1,30 @@
+프로젝트_id = [ 헤비트래커 day1, 헤비트래커 day2, ....  , 헤비트래커 day 99]
+
+                       ↓
+	헤비트래커 day1 = { 피드백: 피드백,   →             피드백 = {피드백 : 피드백} 
+			  투두리스트: [투두리스트1, 투두리스트2]}
+			                       ↓
+			   투두리스트1 = { 내용: 내용,
+				           체크 : 체크 }
+
+
+프로젝트 제목, 
+
+프로젝트제목 = [2021-12-10, 2021-12-11, 2021-12-12, 2021-12-13, ... , 2021-12-10-98]
+
+userID {projects[ { project_title1 = [trackers1, trackers2, ... trackers98] , project_title2 = [trackers1, trackers2, ... trackers98], ... } ]
+
+Projects 
+ 
+trackers { todo,
+	feedback}
+
+userID > 아이디랑 비번
+projects > 모든 사람들이 만든 프로젝트들  > projects 데이터를갖고와서 if 문으로 userID
+trackers > prjects의이름으로된 트래커 > 트래커안에는 투두랑 피드백이
+
+
+users > {userID, PW}
+projects > project_title, userID, date, 
+trackers > userID, project_title, trackers_ID(날짜)
+datails > userID, project_title, trackers_ID, todo_ID, content, check, feedback
