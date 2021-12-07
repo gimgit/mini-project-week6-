@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const circlesSchema = new mongoose.Schema({
     projects_id: {
         type: Number,
-        unique: true,
         required: ()=> {
             if(!this.projects_id)
             return;
