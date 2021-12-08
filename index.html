@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+      integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class = "todos" style ="border : solid 1px;">
+        <h3>todo 작성하기</h3>
+        <input type="text" id="todo_content"/>
+        <button onclick="write_todo()">등록하기</button>
+    </div>
+  </body>
+  <script>
+      function write_todo() {
+        let todo_content = $("#todo_content").val();
+      if (todo_content === "") {
+        alert("빈 칸을 입력해주세요!");
+        return;
+      }
+      $.ajax({
+        type: "POST",
+        url: "/api/todos",
+        data: {
+          todos_id:"3",
+          todo_content:todo_content,
+          circles_id:"3",
+        },
+        success: function (response) {
+          if (response["result"] == "success") {
+            alert("등록이 완료되었습니다.");
+            window.location.reload();
+          } else {
+            alert(response["msg"]);
+          }
+        },
+        error: function () {
+          alert("실패입니다.");
+        },
+      });
+    }
+  </script>
+  </script>
+</html>

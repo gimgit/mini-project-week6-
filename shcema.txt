@@ -24,7 +24,7 @@ projects > 모든 사람들이 만든 프로젝트들  > projects 데이터를�
 trackers > prjects의이름으로된 트래커 > 트래커안에는 투두랑 피드백이
 
 
-users > {userID, PW}
-projects > project_title, userID, date, 
-trackers > userID, project_title, trackers_ID(날짜)
-datails > userID, project_title, trackers_ID, todo_ID, content, check, feedback
+users > userID, PW
+projects > projectTitle, userID, date
+trackers > projectsId, trackers_Id(날짜), feedback
+todos > userId, trackersId, todo_Id, content, check
