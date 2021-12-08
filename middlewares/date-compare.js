@@ -1,4 +1,4 @@
-const circles = require("../schemas/circles");
+const circles = require("../models/circles");
 
 module.exports = async (req, res, next) => {
   const { circles_id } = req.body;
@@ -8,7 +8,8 @@ module.exports = async (req, res, next) => {
   const month = now.getMonth();
   const date = now.getDate();
 
-  const circles_date = await circles.findOne({ circles_id: circles_id }).date;
+  const circles_date = await circles.findOne({ circles_id: circles_id })
+    .circles_date;
   const [circles_date_year, circles_date_month, circles_date_date] =
     circles_date.split("-");
 

@@ -1,6 +1,6 @@
 const express = require("express");
-const Todos = require("../schemas/todos");
-const circles = require("../schemas/circles");
+const Todos = require("../models/todos");
+const circles = require("../models/circles");
 const dateMiddleware = require("../middlewares/date-compare");
 const router = express.Router();
 
@@ -68,7 +68,8 @@ router.patch("/todos/:todos_id", async (req, res) => {
   const date = now.getDate();
 
   const today_date = `${year}-${month}-${date}`;
-  const circles_date = await circles.findOne({ circles_id: circles_id }).date;
+  const circles_date = await circles.findOne({ circles_id: circles_id })
+    .circles_date;
 
   if (circles_date !== today_date) {
     return res.status(412).send({
