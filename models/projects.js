@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  projects_Id:{
+  projects_id:{
     type: Number,
     unique: true
   },
@@ -12,10 +12,6 @@ const projectSchema = new mongoose.Schema({
   },
   userId:{
     type: String
-  },
-  postId:{
-    type: Number,
-    unique: true
   },
   date:{
       type: String,

@@ -2,6 +2,7 @@ const express = require('express');
 const projects = require('../models/projects');
 const router = express.Router();
 const Project = require("../models/projects")
+const circle = require("../models/circles")
 
 router.post('/projects', async (req, res) => {
     const user = req.body.userId
@@ -9,21 +10,52 @@ router.post('/projects', async (req, res) => {
     let newProject = 1;
 
     try {
-        last = await Project.find({}).sort({projects_Id:-1}).limit(1);
-        newProject = last[0].projects_Id + 1;
+        last = await Project.find({}).sort({projects_id:-1}).limit(1);
+        newProject = last[0].projects_id + 1;
     } catch(err) {
         newProject = 1;
     }
 
     const projects = new Project({
-       
-        project_title : title, 
-        projects_Id: newProject, 
+        project_title : title,  
+        projects_id: newProject, 
         userId: user,
         date: new Date(),  
     });
     await projects.save()
 
+
+
+    for (let i=1; i<100; i++){
+        let newCircle = i;
+        let feedback = ''
+        const circles = new circle({
+            projects_id: newProject,
+            circleIdx: newCircle,
+            feedback: feedback
+        })
+        await circles.save()    
+    }
+    
+
+    // let circles = new circle({
+    //     projects_Id: newProject
+    // })
+    // await circles.save()
+    // let circleIndex = 0
+    // for (let i=1; i < 99; i++){
+    //     circleIndex += 1 
+    //     let circles = new circle({
+    //         projects_Id: newProject,
+    //         circle_id: circleIndex
+    //     })
+    //     await circles.save()
+    // }
+
+    // const circles = new circle({
+    //     projects_Id: newProject, 
+    //     // circle_Id: 
+    // })
 
 
         res.redirect('/login') 
