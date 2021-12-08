@@ -7,8 +7,8 @@ connect();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const Router = require("./routers/route");
-app.use("/api", Router);
+const Todo = require("./routers/todo");
+app.use("/api", Todo);
 
 app.listen(8080, () => {
   console.log("server opened successfully");
