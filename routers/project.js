@@ -35,7 +35,6 @@ router.post("/projects", async (req, res) => {
   let num = 0;
   let newDate = new Date();
   for (let i = 1; i < 100; i++) {
-    // let newCircle = i;
     let feedback = " ";
     newDate.setDate(newDate.getDate() + num);
     const year = newDate.getFullYear();
@@ -48,7 +47,6 @@ router.post("/projects", async (req, res) => {
 
     const circles = new circle({
       projects_id: newProject,
-      // circle_idx: newCircle,
       circles_id: `${user}_${newProject}_${i}`,
       feedback: feedback,
       circles_date: new_date,
@@ -72,13 +70,28 @@ router.get("/projects", async (req, res, next) => {
   }
 });
 
-router.delete("/projects/:projects_Id", async (req, res, next) => {
-  console.log(req.params);
+router.delete("/projects/:projects_id", async (req, res, next) => {
+    const { projects_id } = req.params;
 
-  await Project.deleteOne({ projects_Id: 11 });
-
+  await Project.deleteOne({ projects_id: projects_id });
+  await circle.deleteMany({ projects_id: projects_id });
   res.send({});
 });
+
+router.put("/projects/:projects_id", async (req, res, next) => {
+    const { projects_id } = req.params;
+    const { project_title} = req.body;
+    await Project.updateOne({
+        projects_id: projects_id 
+        },
+        {$set: {
+            project_title : project_title
+            }
+        });
+    res.send({});
+  });
+
+  
 // userID 로컬 또는 미들웨어 통해 검증
 // 프론트에서 projectId 받아 삭제
 module.exports = router;

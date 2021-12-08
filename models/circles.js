@@ -17,12 +17,7 @@ const circlesSchema = new mongoose.Schema({
   circles_date: {
     type: String,
     required: true,
-  },
-  // circle_idx: {
-  //     type: Number,
-  //     required: true
-
-  // }
+  }
 });
 
 module.exports = mongoose.model("circles", circlesSchema);

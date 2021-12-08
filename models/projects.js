@@ -18,6 +18,5 @@ const projectSchema = new mongoose.Schema({
       unique: true
   }
 });
-// projectSchema.index
 
 module.exports = mongoose.model("Project", projectSchema);

@@ -11,6 +11,7 @@ router.post("/register", async (req, res, next)=>{
   const pw2 = req.body.pw2
   const namingRule = /^[a-zA-z0-9]{3,999}$/
   const existingUser = await User.findOne({userId : userId});
+
     // 닉네임 양식 확인
     if (userId < 3 || namingRule.test(userId) == false){
       res.status(400).send({
@@ -64,14 +65,6 @@ router.post('/login', async (req, res) => {
       return;
     }
     console.log(user)
-    // const newDate = new Date()
-    // const newDate2 = newDate.toString().split(' ')
-    // const logMonth = newDate2[1]
-    // const logDate = newDate2[2]
-    // const loginDate = logMonth+logDate
-
-    // console.log(newDate2);
-    // console.log(loginDate);
 
     const token = jwt.sign(
       
