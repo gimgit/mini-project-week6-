@@ -16,6 +16,29 @@ router.post("/todos", async (req, res) => {
   const { todos_id, todo_content, circles_id } = req.body;
   const todo_check = false;
 
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const date = now.getDate();
+
+  const circles_date = await circles.findOne({ circles_id: circles_id }).date;
+  const circles_date_year = circles_date.split("-")[0];
+  const circles_date_month = circles_date.split("-")[1] - 1;
+  const circles_date_date = circles_date.split("-")[2];
+
+  const today_time = new Date(year, month, date).getTime();
+  const circles_time = new Date(
+    circles_date_year,
+    circles_date_month,
+    circles_date_date
+  ).getTime();
+
+  if (circles_time < today_time) {
+    return res.status(412).send({
+      errorMessage: "이전 날짜의 TodoList는 수정할 수 있습니다.",
+    });
+  }
+
   await Todos.create({
     todos_id,
     todo_content,
@@ -31,7 +54,30 @@ router.post("/todos", async (req, res) => {
 //투두리스트 수정 API
 router.put("/todos/:todos_id", async (req, res) => {
   const { todos_id } = req.params;
-  const { todo_content } = req.body;
+  const { todo_content, circles_id } = req.body;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const date = now.getDate();
+
+  const circles_date = await circles.findOne({ circles_id: circles_id }).date;
+  const circles_date_year = circles_date.split("-")[0];
+  const circles_date_month = circles_date.split("-")[1] - 1;
+  const circles_date_date = circles_date.split("-")[2];
+
+  const today_time = new Date(year, month, date).getTime();
+  const circles_time = new Date(
+    circles_date_year,
+    circles_date_month,
+    circles_date_date
+  ).getTime();
+
+  if (circles_time < today_time) {
+    return res.status(412).send({
+      errorMessage: "이전 날짜의 TodoList는 수정할 수 있습니다.",
+    });
+  }
 
   await Todos.updateOne(
     {
@@ -49,7 +95,30 @@ router.put("/todos/:todos_id", async (req, res) => {
 
 //투두리스트 식제 API
 router.delete("/todos/:todos_id", async (req, res) => {
-  const { todos_id } = req.params;
+  const { todos_id, circles_id } = req.params;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const date = now.getDate();
+
+  const circles_date = await circles.findOne({ circles_id: circles_id }).date;
+  const circles_date_year = circles_date.split("-")[0];
+  const circles_date_month = circles_date.split("-")[1] - 1;
+  const circles_date_date = circles_date.split("-")[2];
+
+  const today_time = new Date(year, month, date).getTime();
+  const circles_time = new Date(
+    circles_date_year,
+    circles_date_month,
+    circles_date_date
+  ).getTime();
+
+  if (circles_time < today_time) {
+    return res.status(412).send({
+      errorMessage: "이전 날짜의 TodoList는 수정할 수 있습니다.",
+    });
+  }
 
   await Todos.deleteOne({ todos_id: todos_id });
 
