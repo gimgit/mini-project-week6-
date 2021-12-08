@@ -15,11 +15,8 @@ const projects = require('./routers/project')
 app.use('/api', projects)
 const main = require('./routers/main')
 app.use('/api', main)
-
-// app.use(express.urlencoded({ extended: false }))
-// app.use(bodyParser.json())
-// app.use(express.json())
-// // app.use(express.static('public'));
+const Todo = require("./routers/todo");
+app.use("/api", Todo);
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
