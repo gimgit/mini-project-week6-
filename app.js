@@ -8,10 +8,13 @@ connect()
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended : false}));
+
 const user = require('./routers/user')
 app.use('/api', user)
 const projects = require('./routers/project')
 app.use('/api', projects)
+const main = require('./routers/main')
+app.use('/api', main)
 
 // app.use(express.urlencoded({ extended: false }))
 // app.use(bodyParser.json())

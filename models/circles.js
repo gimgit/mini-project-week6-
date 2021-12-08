@@ -3,28 +3,26 @@ const mongoose = require("mongoose");
 const circlesSchema = new mongoose.Schema({
     projects_id: {
         type: Number,
-        // required: true
-        // required: ()=> {
-        //     if(!this.projects_id)
-        //     return;
-        // },
+        required: true
     },
     circles_id: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
     feedback: {
         type: String,
-        // required: ()=> {
-        //     if(!this.feedback)
-        //     return;
-        // },
+        required: true
     },
-    date: {
-        type: String,
+    circles_date: {
+        type: Date,
+        required: true
     },
-    circleIdx: {
-        type: Number
-    }
+    // circle_idx: {
+    //     type: Number,
+    //     required: true
+
+    // }
 });
 
 module.exports = mongoose.model("circles", circlesSchema);

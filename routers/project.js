@@ -5,7 +5,9 @@ const Project = require("../models/projects")
 const circle = require("../models/circles")
 
 router.post('/projects', async (req, res) => {
-    const user = req.body.userId
+    const user = 'kim'
+    // const user = req.body.userId
+    // const user = req.body.userId
     const title = req.body.title
     let newProject = 1;
 
@@ -24,38 +26,24 @@ router.post('/projects', async (req, res) => {
     });
     await projects.save()
 
+//circle 99개 생성
 
-
+    let newDate = new Date();
     for (let i=1; i<100; i++){
-        let newCircle = i;
-        let feedback = ''
+        // let newCircle = i;
+        let feedback = ' ';
+        newDate.setDate(newDate.getDate() + 1);
+
         const circles = new circle({
             projects_id: newProject,
-            circleIdx: newCircle,
-            feedback: feedback
+            // circle_idx: newCircle,
+            circles_id: `${user}_${newProject}_${i}`,
+            feedback: feedback,
+            circles_date: newDate
         })
         await circles.save()    
     }
     
-
-    // let circles = new circle({
-    //     projects_Id: newProject
-    // })
-    // await circles.save()
-    // let circleIndex = 0
-    // for (let i=1; i < 99; i++){
-    //     circleIndex += 1 
-    //     let circles = new circle({
-    //         projects_Id: newProject,
-    //         circle_id: circleIndex
-    //     })
-    //     await circles.save()
-    // }
-
-    // const circles = new circle({
-    //     projects_Id: newProject, 
-    //     // circle_Id: 
-    // })
 
 
         res.redirect('/login') 
@@ -64,7 +52,7 @@ router.post('/projects', async (req, res) => {
 router.get("/projects", async (req, res, next) => {
     // const user = req.body.userId
     try {
-        const projects = await Project.find({userId : 'test2' }).sort("projects_Id");  
+        const projects = await Project.find({userId : 'test' }).sort("projects_Id");  
 
         res.json({ projects: projects });  
     } catch (err) {
@@ -76,15 +64,8 @@ router.get("/projects", async (req, res, next) => {
 
     router.delete("/projects/:projects_Id", async (req, res, next) => {
         console.log(req.params)
-        // const { projects_Id } = req.params;
-        // const project = await Project.findOne({ projects_Id : 11 });
-        // console.log(project)
-        // if (project.userId !== 'test') {
-        //     res.send ({ errorMessage: "access denied" });
-    
-        //     return;
-        // }else { await Project.deleteOne({ _projects_Id : 11 })}
-await Project.deleteOne({ projects_Id : 11 })
+
+    await Project.deleteOne({ projects_Id : 11 })
         
         res.send({ })
     }); 
