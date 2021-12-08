@@ -1,15 +1,13 @@
 const express = require("express");
-const projects = require("../models/projects");
+// const projects = require("../models/projects");
 const router = express.Router();
 const Project = require("../models/projects");
 const circle = require("../models/circles");
 
 router.post("/projects", async (req, res) => {
-  const user = "kim";
-  // const user = req.body.userId
-  // const user = req.body.userId
-  const title = req.body.title;
-  let newProject = 1;
+    const { userId } = req.body;
+    const { project_title }= req.body;
+    let newProject = 1;
 
   try {
     last = await Project.find({}).sort({ projects_id: -1 }).limit(1);
@@ -17,15 +15,15 @@ router.post("/projects", async (req, res) => {
   } catch (err) {
     newProject = 1;
   }
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const date = now.getDate();
+//   const now = new Date();
+//   const year = now.getFullYear();
+//   const month = now.getMonth();
+//   const date = now.getDate();
 
   const projects = new Project({
-    project_title: title,
+    project_title: project_title,
     projects_id: newProject,
-    userId: user,
+    userId: userId,
     date: new Date(),
   });
   await projects.save();
@@ -47,7 +45,7 @@ router.post("/projects", async (req, res) => {
 
     const circles = new circle({
       projects_id: newProject,
-      circles_id: `${user}_${newProject}_${i}`,
+      circles_id: `${userId}_${newProject}_${i}`,
       feedback: feedback,
       circles_date: new_date,
     });
@@ -58,9 +56,9 @@ router.post("/projects", async (req, res) => {
 });
 
 router.get("/projects", async (req, res, next) => {
-  // const user = req.body.userId
+    const { userId } = req.body;
   try {
-    const projects = await Project.find({ userId: "kim" }).sort("projects_Id");
+    const projects = await Project.find({ userId: userId }).sort("projects_Id");
 
     res.json({ projects: projects });
   } catch (err) {
