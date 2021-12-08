@@ -17,6 +17,8 @@ const main = require('./routers/main')
 app.use('/api', main)
 const Todo = require("./routers/todo");
 app.use("/api", Todo);
+const circles = require("./routers/circles");
+app.use("/api", circles);
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -39,3 +41,4 @@ app.get('/projects', (req, res) => {
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
 })
+
