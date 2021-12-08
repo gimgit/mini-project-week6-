@@ -8,10 +8,9 @@ module.exports = async (req, res, next) => {
   const month = now.getMonth();
   const date = now.getDate();
 
-  const circles_date = await circles.findOne({ circles_id: circles_id })
-    .circles_date;
+  const circles_date = await circles.findOne({ circles_id: circles_id });
   const [circles_date_year, circles_date_month, circles_date_date] =
-    circles_date.split("-");
+    circles_date.circles_date.split("-");
 
   const today_time = new Date(year, month, date).getTime();
   const circles_time = new Date(
