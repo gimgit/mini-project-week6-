@@ -16,8 +16,9 @@ const projectSchema = new mongoose.Schema({
   date:{
       type: String,
       unique: true
-  }
+  },
+ 
+
 });
-// projectSchema.index
 
 module.exports = mongoose.model("Project", projectSchema);

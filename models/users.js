@@ -7,9 +7,14 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
- pw:{
+  pw:{
      type: String,
      required: true
+  },
+  nickname:{
+    type: String,
+    unique: true,
+    required: true
  }
 });
 module.exports = mongoose.model("User", UserSchema);

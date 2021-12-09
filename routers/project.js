@@ -1,9 +1,11 @@
 const express = require("express");
-const projects = require("../models/projects");
+// const projects = require("../models/projects");
 const router = express.Router();
 const Project = require("../models/projects");
 const Todos = require("../models/todos");
 const circle = require("../models/circles");
+const todos = require("../models/todos");
+// const circles = require("../models/circles");
 
 router.post("/projects", async (req, res) => {
     const user = "kim";
@@ -54,7 +56,7 @@ router.post("/projects", async (req, res) => {
         await circles.save();
     }
 
-    res.redirect("/login");
+    res.redirect("/");
 });
 
 router.get("/projects", async (req, res, next) => {
@@ -71,13 +73,33 @@ router.get("/projects", async (req, res, next) => {
     }
 });
 
-router.delete("/projects/:projects_Id", async (req, res, next) => {
-    console.log(req.params);
 
-    await Project.deleteOne({ projects_Id: 11 });
+router.delete("/projects/:projects_id", async (req, res, next) => {
+    const { projects_id } = req.params;
 
-    res.send({});
+
+
+  await Project.deleteOne({ projects_id: projects_id });
+  await circle.deleteMany({ projects_id: projects_id });
+  await todos.deleteMany({ projects_id: projects_id });
+  res.send({});
+
 });
+
+router.put("/projects/:projects_id", async (req, res, next) => {
+    const { projects_id } = req.params;
+    const { project_title} = req.body;
+    await Project.updateOne({
+        projects_id: projects_id 
+        },
+        {$set: {
+            project_title : project_title
+            }
+        });
+    res.send({});
+  });
+
+  
 // userID 로컬 또는 미들웨어 통해 검증
 // 프론트에서 projectId 받아 삭제
 module.exports = router;
