@@ -5,13 +5,12 @@ const Project = require("../models/projects");
 const Todos = require("../models/todos");
 const circle = require("../models/circles");
 const todos = require("../models/todos");
+
 // const circles = require("../models/circles");
 
-router.post("/projects", async (req, res) => {
-    const user = "kim";
-    // const user = req.body.userId
-    // const user = req.body.userId
-    const title = req.body.title;
+router.post("/projects", auth, async (req, res) => {
+    const { userId } = req.body;
+    const { project_title }= req.body;
     let newProject = 1;
 
     try {
