@@ -13,8 +13,9 @@ router.get("/todos", async (req, res) => {
 });
 
 //투두리스트 추가 API
+//todos에 프로젝트 아이디 컬럼 추가
 router.post("/todos", dateMiddleware, async (req, res) => {
-  const { todos_id, todo_content, circles_id } = req.body;
+  const { todos_id, todo_content, circles_id, projects_id } = req.body;
   const todo_check = false;
 
   await Todos.create({
@@ -22,6 +23,7 @@ router.post("/todos", dateMiddleware, async (req, res) => {
     todo_content,
     circles_id,
     todo_check,
+    projects_id
   });
 
   res.send({

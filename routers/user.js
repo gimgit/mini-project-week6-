@@ -2,27 +2,38 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/users")
 const jwt = require('jsonwebtoken')
+const auth = require("../middlewares/auth");
 // const authMiddleware = require('../middlewares/auth_middleware.js');
 
 router.post("/register", async (req, res, next)=>{
   console.log(req.body)
   const userId = req.body.userId
+  const nickname = req.body.nickname
   const pw1 = req.body.pw1
   const pw2 = req.body.pw2
   const namingRule = /^[a-zA-z0-9]{3,999}$/
   const existingUser = await User.findOne({userId : userId});
+  const existingName = await User.findOne({nickname : nickname});
 
-    // 닉네임 양식 확인
+
+    // id 양식 확인
     if (userId < 3 || namingRule.test(userId) == false){
       res.status(400).send({
         errorMessage: "아이디는 3자이상, 알파벳 대소문자, 숫자로 구성"
       })
       return;
     }
-    // 닉네임 중복 확인s
+    // id 중복 확인
     if (existingUser !== null){
       res.status(400).send({
         errorMessage: "아이디 중복"
+      })
+      return;
+    }
+    // 닉네임 중복확인
+    if (nickname !== null){
+      res.status(400).send({
+        errorMessage: "닉네임 중복"
       })
       return;
     }
@@ -41,7 +52,6 @@ router.post("/register", async (req, res, next)=>{
       return;
     }
     
-
       const user = new User({ 
       userId : userId, 
       pw : pw1
@@ -52,10 +62,7 @@ router.post("/register", async (req, res, next)=>{
     })
 
     //로그인
-
 router.post('/login', async (req, res) => {
-  console.log('hi')
-  console.log(req.body)
     const { userId, pw } = req.body;
 
     const user = await User.findOne({ userId });
@@ -71,11 +78,11 @@ router.post('/login', async (req, res) => {
       { userId: user.userId }, '99td');
 
     res.send({
-      token: token,
-      userId : userId
+      token: token
     });
 });
     
     //미들웨어 붙여서 로그인한 유저 블락
 
+  
     module.exports = router;

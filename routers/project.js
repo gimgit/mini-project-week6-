@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const Project = require("../models/projects");
 const circle = require("../models/circles");
+const todos = require("../models/todos");
+// const circles = require("../models/circles");
 
 router.post("/projects", async (req, res) => {
     const { userId } = req.body;
@@ -52,14 +54,14 @@ router.post("/projects", async (req, res) => {
     await circles.save();
   }
 
-  res.redirect("/login");
+  res.redirect("/");
 });
 
 router.get("/projects", async (req, res, next) => {
     const { userId } = req.body;
   try {
     const projects = await Project.find({ userId: userId }).sort("projects_Id");
-
+    
     res.json({ projects: projects });
   } catch (err) {
     console.error(err);
@@ -71,8 +73,11 @@ router.get("/projects", async (req, res, next) => {
 router.delete("/projects/:projects_id", async (req, res, next) => {
     const { projects_id } = req.params;
 
+
+
   await Project.deleteOne({ projects_id: projects_id });
   await circle.deleteMany({ projects_id: projects_id });
+  await todos.deleteMany({ projects_id: projects_id });
   res.send({});
 });
 

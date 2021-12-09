@@ -18,6 +18,10 @@ const TodosSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  projects_id:{
+    type: Number,
+    require: true
+  }
 });
 
 module.exports = mongoose.model("Todos", TodosSchema);
