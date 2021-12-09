@@ -10,7 +10,7 @@ const todos = require("../models/todos");
 
 router.post("/projects", async (req, res) => {
     const { userId } = req.body;
-    const { project_title }= req.body;
+    const { project_title } = req.body;
     let newProject = 1;
 
     try {
@@ -54,13 +54,17 @@ router.post("/projects", async (req, res) => {
         await circles.save();
     }
 
-    res.redirect("/");
+    const result = await Project.find({ userId: userId });
+
+    res.send(result);
 });
 
 router.get("/projects", async (req, res, next) => {
-    const { userId } = req.body;
+    const { userId } = req.query;
     try {
-        const projects = await Project.find({ userId: userId }).sort("projects_Id");
+        const projects = await Project.find({ userId: userId }).sort(
+            "projects_Id"
+        );
         res.json({ projects: projects });
     } catch (err) {
         console.error(err);
@@ -69,33 +73,38 @@ router.get("/projects", async (req, res, next) => {
     }
 });
 
-
 router.delete("/projects/:projects_id", async (req, res, next) => {
     const { projects_id } = req.params;
+    const { userId } = req.body;
 
+    await Project.deleteOne({ projects_id: projects_id });
+    await circle.deleteMany({ projects_id: projects_id });
+    await todos.deleteMany({ projects_id: projects_id });
 
+    const result = await Project.find({ userId: userId });
 
-  await Project.deleteOne({ projects_id: projects_id });
-  await circle.deleteMany({ projects_id: projects_id });
-  await todos.deleteMany({ projects_id: projects_id });
-  res.send({});
-
+    res.send(result);
 });
 
 router.put("/projects/:projects_id", async (req, res, next) => {
     const { projects_id } = req.params;
-    const { project_title} = req.body;
-    await Project.updateOne({
-        projects_id: projects_id 
+    const { userId, project_title } = req.body;
+    await Project.updateOne(
+        {
+            projects_id: projects_id,
         },
-        {$set: {
-            project_title : project_title
-            }
-        });
-    res.send({});
-  });
+        {
+            $set: {
+                project_title: project_title,
+            },
+        }
+    );
 
-  
+    const result = await Project.find({ userId: userId });
+
+    res.send(result);
+});
+
 // userID 로컬 또는 미들웨어 통해 검증
 // 프론트에서 projectId 받아 삭제
 module.exports = router;
