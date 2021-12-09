@@ -16,12 +16,15 @@ router.get("/todos", async (req, res) => {
 router.post("/todos", dateMiddleware, async (req, res) => {
     const { todos_id, todo_content, circles_id } = req.body;
     const todo_check = false;
+    const circles_detail = await circles.findOne({ circles_id: circles_id });
+    const projects_id = circles_detail.projects_id;
 
     await Todos.create({
         todos_id,
         todo_content,
         circles_id,
         todo_check,
+        projects_id,
     });
 
     res.send({
