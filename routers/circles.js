@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const users = require("../schema/userSchema");   => 희경님 db 스키마 보고 수정
 const circles = require("../models/circles");
 const auth = require("../middlewares/auth");
 
@@ -20,62 +19,86 @@ router
         } catch (error) {
             console.log(error);
         }
+
     })
     .post(async (req, res) => {
         const { projects_id, circles_id, feedback } = req.body;
-        const existfeedback = await circles.findOne({ circles_id });
-        if (!existfeedback) {
-            const circle = new circles({
-                projects_id,
-                circles_id,
-                feedback,
-                date,
-            });
-            await circle.save();
-        } else {
+        
+        try {
+            if(feedback==""){
+                res.status(400).send({
+                    errorMessage: "피드백을 입력해주세요!",
+                });
+            }
             const successCount = await circles.updateOne(
                 { circles_id },
                 { $set: { feedback } }
             );
             if (successCount < 1) {
-                res.status(401).send({
+                res.status(400).send({
                     errorMessage: "피드백 등록에 실패하였습니다!",
                 });
                 return;
             }
+            const returnData = await circles.findOne({ circles_id });
+            res.status(200).send(returnData);
+        } catch(error) {
+            res.status(400).send({
+                errorMessage: "피드백 등록에 실패하였습니다!",
+            });
         }
-        const returnData = await circles.findOne({ circles_id });
-        res.status(200).send(returnData);
+
     })
     .put(async (req, res) => {
         const { circles_id, feedback } = req.body;
-        const successCount = await circles.updateOne(
-            { circles_id },
-            { $set: { feedback } }
-        );
-        if (successCount < 1) {
-            res.status(401).send({
+
+        try{
+            if(feedback==""){
+                res.status(400).send({
+                    errorMessage: "피드백을 입력해주세요!",
+                });
+            }
+            const successCount = await circles.updateOne(
+                { circles_id },
+                { $set: { feedback } }
+            );
+            if (successCount < 1) {
+                res.status(400).send({
+                    errorMessage: "피드백 수정에 실패하였습니다!",
+                });
+                return;
+            }
+            const returnData = await circles.findOne({ circles_id });
+            res.status(200).send(returnData);
+        } catch(error) {
+            res.status(400).send({
                 errorMessage: "피드백 수정에 실패하였습니다!",
             });
-            return;
         }
-        const returnData = await circles.findOne({ circles_id });
-        res.status(200).send(returnData);
+        
     })
     .delete(async (req, res) => {
         const { circles_id } = req.body;
-        const successCount = await circles.updateOne(
-            { circles_id },
-            { $set: { feedback: "" } }
-        );
-        if (successCount < 1) {
-            res.status(401).send({
+
+        try {
+            const successCount = await circles.updateOne(
+                { circles_id },
+                { $set: { feedback: "" } }
+            );
+            if (successCount < 1) {
+                res.status(400).send({
+                    errorMessage: "피드백 삭제에 실패하였습니다!",
+                });
+                return;
+            }
+            const returnData = await circles.findOne({ circles_id });
+            res.status(200).send(returnData);
+        } catch(error) {
+            res.status(400).send({
                 errorMessage: "피드백 삭제에 실패하였습니다!",
             });
-            return;
         }
-        const returnData = await circles.findOne({ circles_id });
-        res.status(200).send(returnData);
+        
     });
 
 // 인증 api
