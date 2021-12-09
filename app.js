@@ -10,14 +10,15 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
 const user = require("./routers/user");
-app.use("/api", user);
 const projects = require("./routers/project");
-app.use("/api", projects);
 const main = require("./routers/main");
-app.use("/api", main);
 const Todo = require("./routers/todo");
-app.use("/api", Todo);
 const circles = require("./routers/circles");
+
+app.use("/api", user);
+app.use("/api", projects);
+app.use("/api", main);
+app.use("/api", Todo);
 app.use("/api", circles);
 
 app.listen(port, () => {
