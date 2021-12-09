@@ -68,9 +68,11 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res) => {
     const { userId, pw } = req.body;
 
+    const encodedPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
+
     const user = await User.findOne({ userId });
 
-    if (!user || pw !== user.pw) {
+    if (!user || encodedPW !== user.pw) {
         res.status(400).send({
             errorMessage: "아이디 또는 패스워드가 잘못됐습니다.",
         });
