@@ -20,20 +20,6 @@ app.use("/api", Todo);
 const circles = require("./routers/circles");
 app.use("/api", circles);
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-
-app.get("/register", (req, res) => {
-  res.render("register");
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-app.get("/projects", (req, res) => {
-  res.render("projects");
-});
-
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`);
 });
