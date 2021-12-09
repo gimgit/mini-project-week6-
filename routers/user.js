@@ -31,7 +31,7 @@ router.post("/register", async (req, res, next)=>{
       return;
     }
     // 닉네임 중복확인
-    if (nickname !== null){
+    if (existingName !== null){
       res.status(400).send({
         errorMessage: "닉네임 중복"
       })
