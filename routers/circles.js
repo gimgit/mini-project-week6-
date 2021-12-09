@@ -5,7 +5,7 @@ const auth = require("../middlewares/auth");
 
 router
     .route("/circles/:circles_id/feedback")
-    .get(async (req, res) => {
+    .get(auth, async (req, res) => {
         const { circles_id } = req.params; // circles_id => unique;
 
         try {
@@ -21,7 +21,7 @@ router
         }
 
     })
-    .post(async (req, res) => {
+    .post(auth, async (req, res) => {
         const { projects_id, circles_id, feedback } = req.body;
         
         try {
@@ -49,7 +49,7 @@ router
         }
 
     })
-    .put(async (req, res) => {
+    .put(auth, async (req, res) => {
         const { circles_id, feedback } = req.body;
 
         try{
@@ -77,7 +77,7 @@ router
         }
         
     })
-    .delete(async (req, res) => {
+    .delete(auth, async (req, res) => {
         const { circles_id } = req.body;
 
         try {
