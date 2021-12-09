@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/users")
 const jwt = require('jsonwebtoken')
-const auth = require("../middlewares/auth");
-// const authMiddleware = require('../middlewares/auth_middleware.js');
+
 
 router.post("/register", async (req, res, next)=>{
   console.log(req.body)
