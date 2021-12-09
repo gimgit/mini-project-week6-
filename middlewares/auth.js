@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
     // console.log("여기를 지나서");
     // next();
     try {
-        const token = await req.headers["authoriztion"];
+        const token = await req.headers["authorization"];
         const [type, encodedToken] = token.split(" ");
         const userID = JWT.verify(encodedToken, "99td");
         res.locals = userID;
