@@ -21,9 +21,9 @@ router.post("/projects", auth, async (req, res) => {
     }
 
     const projects = new Project({
-        project_title: title,
+        project_title: project_title,
         projects_id: newProject,
-        userId: user,
+        userId: userId,
         date: new Date(),
     });
     await projects.save();
@@ -46,8 +46,7 @@ router.post("/projects", auth, async (req, res) => {
 
         const circles = new circle({
             projects_id: newProject,
-            // circle_idx: newCircle,
-            circles_id: `${user}_${newProject}_${i}`,
+            circles_id: `${userId}_${newProject}_${i}`,
             feedback: feedback,
             circles_date: new_date,
             check_count: 0,
@@ -59,11 +58,9 @@ router.post("/projects", auth, async (req, res) => {
 });
 
 router.get("/projects", async (req, res, next) => {
-    // const user = req.body.userId
+    const { userId } = req.body;
     try {
-        const projects = await Project.find({ userId: "kim" }).sort(
-            "projects_Id"
-        );
+        const projects = await Project.find({ userId: userId }).sort("projects_Id");
         res.json({ projects: projects });
     } catch (err) {
         console.error(err);
