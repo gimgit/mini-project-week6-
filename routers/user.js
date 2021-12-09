@@ -52,7 +52,8 @@ router.post("/register", async (req, res, next)=>{
     
       const user = new User({ 
       userId : userId, 
-      pw : pw1
+      pw : pw1,
+      nickname : nickname
       });
       await user.save();
   
