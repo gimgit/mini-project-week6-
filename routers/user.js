@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
+const salt = crypto.randomBytes(128).toString("base64");
 
 router.post("/register", async (req, res, next) => {
     console.log(req.body);
@@ -49,9 +52,11 @@ router.post("/register", async (req, res, next) => {
         return;
     }
 
+    const encodedPW = crypto.createHash('sha512').update(pw1 + salt).digest('hex');
+    
     const user = new User({
         userId: userId,
-        pw: pw1,
+        pw: encodedPW,
         nickname: nickname,
     });
     await user.save();
