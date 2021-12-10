@@ -77,7 +77,7 @@ router
         }
     })
     .delete(async (req, res) => {
-        const { circles_id } = req.body;
+        const { circles_id } = req.params;
 
         try {
             const successCount = await circles.updateOne(
