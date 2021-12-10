@@ -125,5 +125,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-idea.txt
+
 .env
