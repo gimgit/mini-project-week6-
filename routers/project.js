@@ -13,6 +13,14 @@ router.post("/projects", async (req, res) => {
     const { project_title } = req.body;
     let newProject = 1;
 
+    let check_title = project_title.split(" ");
+
+    if (check_title[0] === "") {
+        res.status(412).send({
+            errorMessage: "공란은 입력할 수 없습니다.",
+        });
+    }
+
     try {
         last = await Project.find({}).sort({ projects_id: -1 }).limit(1);
         newProject = last[0].projects_id + 1;
@@ -32,13 +40,16 @@ router.post("/projects", async (req, res) => {
 
     let num = 0;
     let newDate = new Date();
+    const utc = newDate.getTime() + newDate.getTimezoneOffset() * 60 * 1000;
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    const kr_curr = new Date(utc + KR_TIME_DIFF);
     for (let i = 1; i < 100; i++) {
         // let newCircle = i;
         let feedback = "";
-        newDate.setDate(newDate.getDate() + num);
-        const year = newDate.getFullYear();
-        const month = newDate.getMonth() + 1;
-        const date = newDate.getDate();
+        kr_curr.setDate(kr_curr.getDate() + num);
+        const year = kr_curr.getFullYear();
+        const month = kr_curr.getMonth() + 1;
+        const date = kr_curr.getDate();
         const new_date = `${year}-${month}-${date}`;
         if (i >= 1) {
             num = 1;
@@ -89,6 +100,15 @@ router.delete("/projects/:projects_id", async (req, res, next) => {
 router.put("/projects/:projects_id", async (req, res, next) => {
     const { projects_id } = req.params;
     const { userId, project_title } = req.body;
+
+    let check_title = project_title.split(" ");
+
+    if (check_title[0] === "") {
+        res.status(412).send({
+            errorMessage: "공란은 입력할 수 없습니다.",
+        });
+    }
+
     await Project.updateOne(
         {
             projects_id: projects_id,

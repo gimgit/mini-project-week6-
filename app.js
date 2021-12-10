@@ -5,10 +5,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const corsOptions = {
-    origin: "",
+    "Access-Control-Allow-Origin":
+        "http://test-go99.s3-website.ap-northeast-2.amazonaws.com/",
+    "Access-Control-Request-Method": "POST, GET, DELETE, PATCH, PUT",
+    "Access-Control-Request-Headers": "X-Custom-Header",
+    credentials: true,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 const connect = require("./models");
 connect();

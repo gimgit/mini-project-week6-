@@ -37,6 +37,7 @@ router.post("/todos", dateMiddleware, async (req, res) => {
 router.put("/todos/:todos_id", dateMiddleware, async (req, res) => {
     const { todos_id } = req.params;
     const { todo_content, circles_id } = req.body;
+    console.log("여기를 지나감");
 
     await Todos.updateOne(
         {
@@ -62,7 +63,7 @@ router.delete("/todos/:todos_id", dateMiddleware, async (req, res) => {
     await Todos.deleteOne({ todos_id: todos_id });
 
     const circle_detail = await Todos.find({ circles_id: circles_id });
-
+    console.log(circle_detail);
     res.send({ result: circle_detail });
 });
 
@@ -72,9 +73,13 @@ router.patch("/todos/:todos_id", async (req, res) => {
     const { todo_check, circles_id } = req.body;
 
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const date = now.getDate();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    const kr_curr = new Date(utc + KR_TIME_DIFF);
+
+    const year = kr_curr.getFullYear();
+    const month = kr_curr.getMonth() + 1;
+    const date = kr_curr.getDate();
 
     const today_date = `${year}-${month}-${date}`;
     const circles_date = await circles.findOne({ circles_id: circles_id });
