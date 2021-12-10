@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
+const salt = crypto.randomBytes(128).toString("base64");
 
 router.post("/register", async (req, res, next) => {
     console.log(req.body);
@@ -49,9 +52,11 @@ router.post("/register", async (req, res, next) => {
         return;
     }
 
+    const encodedPW = crypto.createHash('sha512').update(pw1 + salt).digest('hex');
+    
     const user = new User({
         userId: userId,
-        pw: pw1,
+        pw: encodedPW,
         nickname: nickname,
     });
     await user.save();
@@ -63,9 +68,11 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res) => {
     const { userId, pw } = req.body;
 
+    const encodedPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
+
     const user = await User.findOne({ userId });
 
-    if (!user || pw !== user.pw) {
+    if (!user || encodedPW !== user.pw) {
         res.status(400).send({
             errorMessage: "아이디 또는 패스워드가 잘못됐습니다.",
         });

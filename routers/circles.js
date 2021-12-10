@@ -29,6 +29,7 @@ router
                 res.status(400).send({
                     errorMessage: "피드백을 입력해주세요!",
                 });
+                return;
             }
             const successCount = await circles.updateOne(
                 { circles_id },
@@ -57,6 +58,7 @@ router
                 res.status(400).send({
                     errorMessage: "피드백을 입력해주세요!",
                 });
+                return;
             }
             const successCount = await circles.updateOne(
                 { circles_id },
