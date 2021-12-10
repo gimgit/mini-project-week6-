@@ -3,8 +3,8 @@ const router = express.Router();
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
 const salt = crypto.randomBytes(128).toString("base64");
+require("dotenv").config();
 
 router.post("/register", async (req, res, next) => {
     console.log(req.body);
@@ -52,8 +52,11 @@ router.post("/register", async (req, res, next) => {
         return;
     }
 
-    const encodedPW = crypto.createHash('sha512').update(pw1 + salt).digest('hex');
-    
+    const encodedPW = crypto
+        .createHash(process.env.Algorithm)
+        .update(pw1 + salt)
+        .digest("hex");
+
     const user = new User({
         userId: userId,
         pw: encodedPW,
@@ -68,7 +71,10 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res) => {
     const { userId, pw } = req.body;
 
-    const encodedPW = crypto.createHash('sha512').update(pw + salt).digest('hex');
+    const encodedPW = crypto
+        .createHash(process.env.Algorithm)
+        .update(pw + salt)
+        .digest("hex");
 
     const user = await User.findOne({ userId });
 
@@ -80,7 +86,7 @@ router.post("/login", async (req, res) => {
     }
     console.log(user);
 
-    const token = jwt.sign({ userId: user.userId }, "99td");
+    const token = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY);
 
     res.send({
         token: token,
