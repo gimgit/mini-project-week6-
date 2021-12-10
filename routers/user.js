@@ -1,9 +1,11 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
 const salt = crypto.randomBytes(128).toString("base64");
 
 router.post("/register", async (req, res, next) => {
@@ -80,10 +82,10 @@ router.post("/login", async (req, res) => {
     }
     console.log(user);
 
-    const token = jwt.sign({ userId: user.userId }, "99td");
+    const token = jwt.sign({ userId: user.userId }, process.env.token_secret);
 
     res.send({
-        token: token,
+        token: process.env.token_secret,
     });
 });
 
