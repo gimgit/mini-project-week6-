@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const salt = crypto.randomBytes(128).toString("base64");
+
 require("dotenv").config();
 
 router.post("/register", async (req, res, next) => {
@@ -54,7 +54,7 @@ router.post("/register", async (req, res, next) => {
 
     const encodedPW = crypto
         .createHash(process.env.Algorithm)
-        .update(pw1 + salt)
+        .update(pw1 + process.env.salt)
         .digest("hex");
 
     const user = new User({
@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
 
     const encodedPW = crypto
         .createHash(process.env.Algorithm)
-        .update(pw + salt)
+        .update(pw + process.env.salt)
         .digest("hex");
 
     const user = await User.findOne({ userId });
