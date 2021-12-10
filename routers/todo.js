@@ -28,15 +28,15 @@ router.post("/todos", dateMiddleware, async (req, res) => {
         projects_id,
     });
 
-    res.send({
-        result: "success",
-    });
+    const circle_detail = await Todos.find({ circles_id: circles_id });
+
+    res.send({ result: circle_detail });
 });
 
 //투두리스트 수정 API
 router.put("/todos/:todos_id", dateMiddleware, async (req, res) => {
     const { todos_id } = req.params;
-    const { todo_content } = req.body;
+    const { todo_content, circles_id } = req.body;
 
     await Todos.updateOne(
         {
@@ -49,16 +49,21 @@ router.put("/todos/:todos_id", dateMiddleware, async (req, res) => {
         }
     );
 
-    res.send();
+    const circle_detail = await Todos.find({ circles_id: circles_id });
+
+    res.send({ result: circle_detail });
 });
 
 //투두리스트 식제 API
 router.delete("/todos/:todos_id", dateMiddleware, async (req, res) => {
     const { todos_id } = req.params;
+    const { circles_id } = req.body;
 
     await Todos.deleteOne({ todos_id: todos_id });
 
-    res.send();
+    const circle_detail = await Todos.find({ circles_id: circles_id });
+
+    res.send({ result: circle_detail });
 });
 
 //투두리스트 체크박스 수정 API
@@ -112,7 +117,9 @@ router.patch("/todos/:todos_id", async (req, res) => {
         }
     );
 
-    res.send();
+    const circle_detail = await Todos.find({ circles_id: circles_id });
+
+    res.send({ result: circle_detail });
 });
 
 module.exports = router;
