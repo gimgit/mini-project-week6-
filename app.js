@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
 const port = 5000;
+const cors = require("cors");
 const bodyParser = require("body-parser");
+
+const corsOptions = {
+    origin: "",
+};
+
+app.use(cors());
 
 const connect = require("./models");
 connect();
@@ -22,5 +29,5 @@ app.use("/api", Todo);
 app.use("/api", circles);
 
 app.listen(port, () => {
-  console.log(`listening at http://localhost:${port}`);
+    console.log(`listening at http://localhost:${port}`);
 });
