@@ -69,7 +69,7 @@
   - 본문추가
 
 + **트러블슈팅 **   
-  - 노션 링크 예정
+  - https://www.notion.so/Note-12-11-f611ab85145c4be48d3a41e9408d2f94
   
 <br/>
 <br/>
