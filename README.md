@@ -86,7 +86,7 @@
 
 
  - 김희경
-<summary>회고</summary> : https://upsanddowns.tistory.com/35
+<summary>회고 : https://upsanddowns.tistory.com/35 </summary> 
 
 <br/>
 <br/>
